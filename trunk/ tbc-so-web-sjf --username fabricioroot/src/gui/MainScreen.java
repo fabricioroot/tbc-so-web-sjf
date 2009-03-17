@@ -530,17 +530,57 @@ public class MainScreen extends javax.swing.JApplet {
                 process.setLifeTime(Integer.parseInt(this.jTextFieldBurstTime.getText()));
                 process.setId(this.processCounter);
                 process.setState(0);
+
                 if(st != null) {
                     this.timeCounter = st.getTimeCounter();
+                    process.setCreationTime(this.timeCounter);
+                    this.processesList.add(process);
+                    this.paintProcessesList(this.processesList);
+                    this.processCounter++;
+                    
+                    if ((st.getJDialogNextStep().isVisible() == true) && (st.getJProgressBarExecution().isVisible() != true)) {
+                        if ((st.getBlock() != null) && (st.getBlock1() != null)) {
+                            this.jPanelReadyProcesses.add(st.getBlock());
+                            this.jPanelReadyProcesses.add(st.getBlock1());
+                        }
+
+                        if ((st.getBlock() != null) && (st.getBlock1() == null)) {
+                            this.jPanelReadyProcesses.add(st.getBlock());
+                        }
+
+                        if ((st.getBlock() == null) && (st.getBlock1() != null)) {
+                            this.jPanelReadyProcesses.add(st.getBlock1());
+                        }
+
+                        if ((st.getBlock1() != null) && (st.getBlock2() == null)) {
+                            this.jPanelReadyProcesses.add(st.getBlock1());
+                        }
+
+                        if ((st.getBlock1() != null) && (st.getBlock2() != null)) {
+                            this.jPanelReadyProcesses.add(st.getBlock1());
+                            this.jPanelReadyProcesses.add(st.getBlock2());
+                        }
+
+                        JOptionPane.showMessageDialog(null, "Processo criado com sucesso!\n" +
+                                "DICAS: 1) Para escalonar e executar um processo da lista, clique em 'Passos do Algoritmo';\n" +
+                                "              2) Após a execução de um processo, clique em 'Relatório' para exibir informações estatísticas. ", "DICA", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Processo criado com sucesso!\n" +
+                                "DICAS: 1) Para escalonar e executar um processo da lista de prontos, clique em 'Passos do Algoritmo';\n" +
+                                "              2) Após a execução de um processo, clique em 'Relatório' para exibir informações estatísticas. ", "DICA", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
-                process.setCreationTime(this.timeCounter);
-                this.processesList.add(process);
-                this.paintProcessesList(this.processesList);
-                this.processCounter++;
-                JOptionPane.showMessageDialog(null, "Processo criado com sucesso!\n" +
-                        "DICAS: 1) Para escalonar e executar um processo da lista de prontos, clique em 'Passos do Algoritmo';\n" +
-                        "              2) Após a execução de um processo, clique em 'Relatório' para exibir informações estatísticas. ", "DICA", JOptionPane.INFORMATION_MESSAGE);
-                
+                else {
+                    process.setCreationTime(this.timeCounter);
+                    this.processesList.add(process);
+                    this.paintProcessesList(this.processesList);
+                    this.processCounter++;
+                    JOptionPane.showMessageDialog(null, "Processo criado com sucesso!\n" +
+                            "DICAS: 1) Para escalonar e executar um processo da lista de prontos, clique em 'Passos do Algoritmo';\n" +
+                            "              2) Após a execução de um processo, clique em 'Relatório' para exibir informações estatísticas. ", "DICA", JOptionPane.INFORMATION_MESSAGE);
+                }
+
                 if(this.st != null) {
                     if(!this.st.getJDialogNextStep().isVisible()) {
                         this.jButtonAlgorithmSteps.setEnabled(true);
@@ -605,9 +645,7 @@ public class MainScreen extends javax.swing.JApplet {
 
     private void jButtonReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReportActionPerformed
         String report = "";
-        
         report += "* OBS.: os processos abaixo são listados na ordem em que foram executados!\n";
-        
         report += "\n* Informações sobre os processos criados\n";
         
         if(st != null) {
