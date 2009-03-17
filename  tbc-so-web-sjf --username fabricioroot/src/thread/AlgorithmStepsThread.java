@@ -40,6 +40,7 @@ public class AlgorithmStepsThread implements Runnable {
     JLabel jLabelAtDialogNextStep;
     Calculator calculator = new Calculator();
     int MAXIMUM;
+    JTextField block, block1, block2, block3;
 
     public AlgorithmStepsThread(MainScreen mainScreen, JButton jButtonAlgorithmSteps, JButton jButtonReport, Vector<Process> processesList, Vector<Process> reportBase,
                                 int timeCounter, JPanel jPanelCPU, JPanel jPanelReadyProcesses, JProgressBar jProgressBarExecution, JLabel jLabelShowBurstTime,
@@ -59,6 +60,22 @@ public class AlgorithmStepsThread implements Runnable {
         this.jLabelTimeCounter = jLabelTimeCounter;
         this.jLabelCPU = jLabelCPU;
         this.MAXIMUM = MAXIMUM;
+    }
+
+    public JTextField getBlock() {
+        return block;
+    }
+
+    public JTextField getBlock1() {
+        return block1;
+    }
+
+    public JTextField getBlock2() {
+        return block2;
+    }
+    
+    public JProgressBar getJProgressBarExecution() {
+        return jProgressBarExecution;
     }
 
     public Vector<Process> getReportBase() {
@@ -91,7 +108,7 @@ public class AlgorithmStepsThread implements Runnable {
             Vector<Integer> positionsPossibleProcesses = new Vector<Integer>();
             positionsPossibleProcesses = algorithm.findPositionsPossibleProcesses(this.processesList, MAXIMUM);
 
-            JTextField block = new JTextField();
+            block = new JTextField();
             block.setText("j");
             block.setBackground(new java.awt.Color(255, 255, 102));
             block.setForeground(new java.awt.Color(0, 0, 0));
@@ -161,7 +178,7 @@ public class AlgorithmStepsThread implements Runnable {
                 
                 // Here happens the steps between blocks yellow and green till it reaches the last possible process (white block)
                 for(j = 1; j <= (positionsPossibleProcesses.size() - 1); j++) {
-                    JTextField block1 = new JTextField();
+                    block1 = new JTextField();
                     block1.setText("j");
                     block1.setBackground(new java.awt.Color(255, 255, 102));
                     block1.setForeground(new java.awt.Color(0, 0, 0));
@@ -273,7 +290,7 @@ public class AlgorithmStepsThread implements Runnable {
             
             // Here is tested if there are blocks to jump from the last green one till the end of the white blocks
             if(positionsPossibleProcesses.lastElement() < (this.processesList.size() - 1)) {
-                JTextField block2 = new JTextField();
+                block2 = new JTextField();
                 block2.setText("j");
                 block2.setBackground(new java.awt.Color(255, 255, 102));
                 block2.setForeground(new java.awt.Color(0, 0, 0));
@@ -363,16 +380,16 @@ public class AlgorithmStepsThread implements Runnable {
             this.processesList.remove(process);
             this.mainScreen.paintProcessesList(this.processesList);
 
-            block = new JTextField();
-            block.setText("P" + String.valueOf(process.getId()));
-            block.setBackground(new java.awt.Color(255, 51, 0));
-            block.setForeground(new java.awt.Color(0, 0, 0));
-            block.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-            block.setEditable(false);
-            block.setToolTipText("Tempo de burst = " + String.valueOf(process.getLifeTime()));
-            block.setBounds(35, 20, 30, 30);
+            block3 = new JTextField();
+            block3.setText("P" + String.valueOf(process.getId()));
+            block3.setBackground(new java.awt.Color(255, 51, 0));
+            block3.setForeground(new java.awt.Color(0, 0, 0));
+            block3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            block3.setEditable(false);
+            block3.setToolTipText("Tempo de burst = " + String.valueOf(process.getLifeTime()));
+            block3.setBounds(35, 20, 30, 30);
             
-            this.jPanelCPU.add(block);            
+            this.jPanelCPU.add(block3);            
             this.jProgressBarExecution.setVisible(true);
             this.jLabelShowBurstTime.setText("Tempo de burst de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getLifeTime()));
             this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getCreationTime()));
