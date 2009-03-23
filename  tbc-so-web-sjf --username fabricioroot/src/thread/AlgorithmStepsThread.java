@@ -40,7 +40,7 @@ public class AlgorithmStepsThread implements Runnable {
     JLabel jLabelAtDialogNextStep;
     Calculator calculator = new Calculator();
     int MAXIMUM;
-    JTextField block, block1, block2, block3;
+    JTextField block, block1, block2, block3, block4;
 
     public AlgorithmStepsThread(MainScreen mainScreen, JButton jButtonAlgorithmSteps, JButton jButtonReport, Vector<Process> processesList, Vector<Process> reportBase,
                                 int timeCounter, JPanel jPanelCPU, JPanel jPanelReadyProcesses, JProgressBar jProgressBarExecution, JLabel jLabelShowBurstTime,
@@ -74,6 +74,10 @@ public class AlgorithmStepsThread implements Runnable {
         return block2;
     }
     
+    public JTextField getBlock3() {
+        return block3;
+    }
+    
     public JProgressBar getJProgressBarExecution() {
         return jProgressBarExecution;
     }
@@ -93,7 +97,7 @@ public class AlgorithmStepsThread implements Runnable {
     public void setJDialogNextStep(JDialog jDialogNextStep) {
         this.jDialogNextStep = jDialogNextStep;
     }
-    
+
     public void run() {
         this.jButtonAlgorithmSteps.setEnabled(false);
         
@@ -106,16 +110,7 @@ public class AlgorithmStepsThread implements Runnable {
 
             SJFAlgorithm algorithm = new SJFAlgorithm();
             Vector<Integer> positionsPossibleProcesses = new Vector<Integer>();
-            positionsPossibleProcesses = algorithm.findPositionsPossibleProcesses(this.processesList, MAXIMUM);
 
-            block = new JTextField();
-            block.setText("j");
-            block.setBackground(new java.awt.Color(255, 255, 102));
-            block.setForeground(new java.awt.Color(0, 0, 0));
-            block.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-            block.setEditable(false);
-            this.jPanelReadyProcesses.add(block);
-            
             this.jDialogNextStep = new JDialog();
             this.jDialogNextStep.setModalityType(ModalityType.MODELESS);
             this.jDialogNextStep.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
@@ -147,6 +142,14 @@ public class AlgorithmStepsThread implements Runnable {
             this.jLabelShowBurstTime.setVisible(true);
             this.jLabelShowCreationTime.setVisible(true);
             
+            block = new JTextField();
+            block.setText("j");
+            block.setBackground(new java.awt.Color(255, 255, 102));
+            block.setForeground(new java.awt.Color(0, 0, 0));
+            block.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            block.setEditable(false);
+            this.jPanelReadyProcesses.add(block);
+            
             // Here is painted the first yellow block on the first possible "process" to be executed
             int orientationAxisY = 25;
             this.jDialogNextStep.setVisible(true);
@@ -161,7 +164,7 @@ public class AlgorithmStepsThread implements Runnable {
             this.jDialogNextStep.setVisible(false);
 
             // Here is changed the value of 'block' to paint the first green block on the first possible "process" to be executed
-            this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf(this.processesList.elementAt(positionsPossibleProcesses.elementAt(0)).getLifeTime()));
+            this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf(this.processesList.elementAt(0).getLifeTime()));
             block.setText("i");
             block.setBackground(new java.awt.Color(0, 255, 0));
             block.setToolTipText("Possível escalonado");
@@ -172,7 +175,9 @@ public class AlgorithmStepsThread implements Runnable {
                 }
             } while (!this.isJButtonOkClicked);
             this.isJButtonOkClicked = false;
-            
+
+            positionsPossibleProcesses = algorithm.findPositionsPossibleProcesses(this.processesList, MAXIMUM);
+
             int j = 0;
             if (positionsPossibleProcesses.size() > 1) {
                 
@@ -269,14 +274,20 @@ public class AlgorithmStepsThread implements Runnable {
                         }
                     } while (!this.isJButtonOkClicked);
                     this.isJButtonOkClicked = false;
-                    
+
                     this.jPanelReadyProcesses.removeAll();
                     this.jPanelReadyProcesses.repaint();
                     this.mainScreen.paintProcessesList(this.processesList);
                     this.jPanelReadyProcesses.add(block1);
+
                     block1.setText("i");
                     block1.setBackground(new java.awt.Color(0, 255, 0));
                     this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf(this.processesList.elementAt(positionsPossibleProcesses.elementAt(j)).getLifeTime()));
+
+                    block2 = new JTextField();
+                    block2 = block1;
+                    block1 = null;
+                    block = null;
 
                     this.jDialogNextStep.setVisible(true);
                     do {
@@ -285,30 +296,33 @@ public class AlgorithmStepsThread implements Runnable {
                         }
                     } while (!this.isJButtonOkClicked);
                     this.isJButtonOkClicked = false;
+                    
+                    // It refreshes 'positionsPossibleProcesses', in case some new shorter process goes in
+                    positionsPossibleProcesses = algorithm.findPositionsPossibleProcesses(this.processesList, MAXIMUM);
                 }
             }
-            
+
             // Here is tested if there are blocks to jump from the last green one till the end of the white blocks
-            if(positionsPossibleProcesses.lastElement() < (this.processesList.size() - 1)) {
-                block2 = new JTextField();
-                block2.setText("j");
-                block2.setBackground(new java.awt.Color(255, 255, 102));
-                block2.setForeground(new java.awt.Color(0, 0, 0));
-                block2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-                block2.setEditable(false);
-                this.jPanelReadyProcesses.add(block2);
+            if (positionsPossibleProcesses.lastElement() < (this.processesList.size() - 1)) {
+                block3 = new JTextField();
+                block3.setText("j");
+                block3.setBackground(new java.awt.Color(255, 255, 102));
+                block3.setForeground(new java.awt.Color(0, 0, 0));
+                block3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+                block3.setEditable(false);
+                this.jPanelReadyProcesses.add(block3);
 
                 if((this.processesList.size() - 1) <= 8) {
                     // First row
                     this.jDialogNextStep.setVisible(true);
                     j = positionsPossibleProcesses.lastElement();
-                    block2.setBounds(15+(j*35), orientationAxisY, 30, 30);
+                    block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
                     this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
                     j++;
                     while (j <= (this.processesList.size() - 1)) {
                         if (this.isJButtonOkClicked) {
                             this.isJButtonOkClicked = false;
-                            block2.setBounds(15+(j*35), orientationAxisY, 30, 30);
+                            block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
                             this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
                             j++;
                         }
@@ -320,44 +334,44 @@ public class AlgorithmStepsThread implements Runnable {
                         // First row
                         this.jDialogNextStep.setVisible(true);
                         j = positionsPossibleProcesses.lastElement();
-                        block2.setBounds(15+(j*35), orientationAxisY, 30, 30);
+                        block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
                         this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
                         while (j <= 8) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
                                 j++;
-                                block2.setBounds(15+(j*35), orientationAxisY, 30, 30);
+                                block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
                                 this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
                             }
                         }
 
                         // Second row
                         j = 0;
-                        block2.setBounds(15, (orientationAxisY + 70), 30, 30);
+                        block3.setBounds(15, (orientationAxisY + 70), 30, 30);
                         this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(9).getLifeTime()));
                         j++;
                         while (j <= (this.processesList.size() - 10)) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
-                                block2.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
+                                block3.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
                                 this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j+9).getLifeTime()));
                                 j++;
                             }
                         }
                         this.jDialogNextStep.setVisible(false);
-                        
+
                     }
                     else {
                         // Second row
                         this.jDialogNextStep.setVisible(true);
                         j = (positionsPossibleProcesses.lastElement() - 9);
-                        block2.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
+                        block3.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
                         this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j+9).getLifeTime()));
                         j++;
                         while (j <= (this.processesList.size() - 10)) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
-                                block2.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
+                                block3.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
                                 this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j+9).getLifeTime()));
                                 j++;
                             }
@@ -366,7 +380,7 @@ public class AlgorithmStepsThread implements Runnable {
                     }
                 }
             }
-            
+
             this.jDialogNextStep.setVisible(true);
             do {
                 if (this.isJButtonOkClicked) {
@@ -374,22 +388,22 @@ public class AlgorithmStepsThread implements Runnable {
                 }
             } while (!this.isJButtonOkClicked);
             this.isJButtonOkClicked = false;
-            
+
             Process process = new Process();
             process = this.processesList.elementAt(algorithm.toExecute(this.processesList, MAXIMUM));
             this.processesList.remove(process);
             this.mainScreen.paintProcessesList(this.processesList);
 
-            block3 = new JTextField();
-            block3.setText("P" + String.valueOf(process.getId()));
-            block3.setBackground(new java.awt.Color(255, 51, 0));
-            block3.setForeground(new java.awt.Color(0, 0, 0));
-            block3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-            block3.setEditable(false);
-            block3.setToolTipText("Tempo de burst = " + String.valueOf(process.getLifeTime()));
-            block3.setBounds(35, 20, 30, 30);
+            block4 = new JTextField();
+            block4.setBackground(new java.awt.Color(255, 51, 0));
+            block4.setForeground(new java.awt.Color(0, 0, 0));
+            block4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            block4.setEditable(false);
+            block4.setBounds(35, 20, 30, 30);
             
-            this.jPanelCPU.add(block3);            
+            this.jPanelCPU.add(block4);
+            block4.setText("P" + String.valueOf(process.getId()));
+            block4.setToolTipText("Tempo de burst = " + String.valueOf(process.getLifeTime()));
             this.jProgressBarExecution.setVisible(true);
             this.jLabelShowBurstTime.setText("Tempo de burst de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getLifeTime()));
             this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getCreationTime()));
