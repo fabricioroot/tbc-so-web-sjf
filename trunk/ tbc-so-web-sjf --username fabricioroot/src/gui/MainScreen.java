@@ -37,6 +37,8 @@ public class MainScreen extends javax.swing.JApplet {
     Calculator calculator = new Calculator(); //See the class 'Calculator' for more details
     
     AlgorithmStepsThread st;
+    
+    Thread t;
 
     /** Initializes the applet MainScreen */    
     @Override
@@ -539,26 +541,21 @@ public class MainScreen extends javax.swing.JApplet {
                     this.processCounter++;
                     
                     if ((st.getJDialogNextStep().isVisible() == true) && (st.getJProgressBarExecution().isVisible() != true)) {
-                        if ((st.getBlock() != null) && (st.getBlock1() != null)) {
-                            this.jPanelReadyProcesses.add(st.getBlock());
-                            this.jPanelReadyProcesses.add(st.getBlock1());
+
+                        if (this.st.getBlock() != null) {
+                            this.jPanelReadyProcesses.add(this.st.getBlock());
                         }
 
-                        if ((st.getBlock() != null) && (st.getBlock1() == null)) {
-                            this.jPanelReadyProcesses.add(st.getBlock());
+                        if (this.st.getBlock1() != null) {
+                            this.jPanelReadyProcesses.add(this.st.getBlock1());
                         }
 
-                        if ((st.getBlock() == null) && (st.getBlock1() != null)) {
-                            this.jPanelReadyProcesses.add(st.getBlock1());
+                        if (this.st.getBlock2() != null) {
+                            this.jPanelReadyProcesses.add(this.st.getBlock2());
                         }
-
-                        if ((st.getBlock1() != null) && (st.getBlock2() == null)) {
-                            this.jPanelReadyProcesses.add(st.getBlock1());
-                        }
-
-                        if ((st.getBlock1() != null) && (st.getBlock2() != null)) {
-                            this.jPanelReadyProcesses.add(st.getBlock1());
-                            this.jPanelReadyProcesses.add(st.getBlock2());
+                        
+                        if (this.st.getBlock3() != null) {
+                            this.jPanelReadyProcesses.add(this.st.getBlock3());
                         }
 
                         JOptionPane.showMessageDialog(null, "Processo criado com sucesso!\n" +
@@ -600,15 +597,15 @@ public class MainScreen extends javax.swing.JApplet {
 
     private void jButtonAlgorithmStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgorithmStepsActionPerformed
         if(st != null) {
-            this.reportBase = st.getReportBase();
-            this.timeCounter = st.getTimeCounter();
+            this.reportBase = this.st.getReportBase();
+            this.timeCounter = this.st.getTimeCounter();
         }
         this.jProgressBarExecution.setValue(0);
         st = new AlgorithmStepsThread(this, this.jButtonAlgorithmSteps, this.jButtonReport, this.processesList, this.reportBase,
                                       this.timeCounter, this.jPanelCPU, this.jPanelReadyProcesses, this.jProgressBarExecution,
                                       this.jLabelShowBurstTime, this.jLabelShowCreationTime, this.jLabelTimeCounter, this.jLabelCPU,
                                       MAXIMUM);
-        Thread t = new Thread(st);
+        t = new Thread(st);
         t.start();
 }//GEN-LAST:event_jButtonAlgorithmStepsActionPerformed
 
@@ -640,6 +637,7 @@ public class MainScreen extends javax.swing.JApplet {
             this.st.setJDialogNextStep(null);
             this.st = null;
         }
+        t.stop();
         System.gc();
     }//GEN-LAST:event_jButtonRestartActionPerformed
 
@@ -661,7 +659,7 @@ public class MainScreen extends javax.swing.JApplet {
         for(int i = 0; i <= (this.processesList.size() - 1); i++) {
             report += "P" + this.processesList.elementAt(i).getId() + ": tempo de burst = " + this.processesList.elementAt(i).getLifeTime() + ";  tempo na criação = " + this.processesList.elementAt(i).getCreationTime() + ";\n";
         }
-        
+
         report += "\n* Tempos de espera\n";
         
         for(int i = 0; i <= (this.reportBase.size() - 1); i++) {
