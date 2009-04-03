@@ -102,11 +102,6 @@ public class AlgorithmStepsThread implements Runnable {
         this.jButtonAlgorithmSteps.setEnabled(false);
         
         if (!this.processesList.isEmpty()) {
-            
-            if(this.reportBase == null) {
-                this.reportBase = new Vector<Process>();
-            }
-            this.reportBase.add(this.calculator.waitingTimeAndTurnAround(this.processesList, this.timeCounter, MAXIMUM));
 
             SJFAlgorithm algorithm = new SJFAlgorithm();
             Vector<Integer> positionsPossibleProcesses = new Vector<Integer>();
@@ -154,7 +149,7 @@ public class AlgorithmStepsThread implements Runnable {
             int orientationAxisY = 25;
             this.jDialogNextStep.setVisible(true);
             block.setBounds(15, orientationAxisY, 30, 30);
-            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(0).getLifeTime()));
+            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(0).getLifeTime()));
             do {
                 if (this.isJButtonOkClicked) {
                     this.jDialogNextStep.setVisible(false);
@@ -164,7 +159,7 @@ public class AlgorithmStepsThread implements Runnable {
             this.jDialogNextStep.setVisible(false);
 
             // Here is changed the value of 'block' to paint the first green block on the first possible "process" to be executed
-            this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf(this.processesList.elementAt(0).getLifeTime()));
+            this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf((int)this.processesList.elementAt(0).getLifeTime()));
             block.setText("i");
             block.setBackground(new java.awt.Color(0, 255, 0));
             block.setToolTipText("Possível escalonado");
@@ -196,20 +191,20 @@ public class AlgorithmStepsThread implements Runnable {
                         this.jDialogNextStep.setVisible(true);
                         int i = positionsPossibleProcesses.elementAt(j-1);
                         block1.setBounds(15+(i*35), orientationAxisY, 30, 30);
-                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i).getLifeTime()));
+                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i).getLifeTime()));
                         i++;
                         while (i <= positionsPossibleProcesses.elementAt(j)) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
                                 block1.setBounds(15+(i*35), orientationAxisY, 30, 30);
-                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i).getLifeTime()));
+                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i).getLifeTime()));
                                 i++;
                             }
                         }
                         this.jDialogNextStep.setVisible(false);
                         i--;
                         block1.setBounds(15+(i*35), orientationAxisY, 30, 30);
-                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i).getLifeTime()));
+                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i).getLifeTime()));
                     }
                     else {
                         if (positionsPossibleProcesses.elementAt(j-1) <= 8) {
@@ -217,53 +212,53 @@ public class AlgorithmStepsThread implements Runnable {
                             this.jDialogNextStep.setVisible(true);
                             int i = positionsPossibleProcesses.elementAt(j-1);
                             block1.setBounds(15+(i*35), orientationAxisY, 30, 30);
-                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i).getLifeTime()));
+                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i).getLifeTime()));
                             while (i <= 8) {
                                 if (this.isJButtonOkClicked) {
                                     this.isJButtonOkClicked = false;
                                     i++;
                                     block1.setBounds(15+(i*35), orientationAxisY, 30, 30);
-                                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i).getLifeTime()));
+                                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i).getLifeTime()));
                                 }
                             }
 
                             // Second row
                             i = 0;
                             block1.setBounds(15, (orientationAxisY + 70), 30, 30);
-                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(9).getLifeTime()));
+                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(9).getLifeTime()));
                             i++;
                             while (i <= (positionsPossibleProcesses.elementAt(j) - 9)) {
                                 if (this.isJButtonOkClicked) {
                                     this.isJButtonOkClicked = false;
                                     block1.setBounds(15+(i*35), (orientationAxisY + 70), 30, 30);
-                                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i+9).getLifeTime()));
+                                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i+9).getLifeTime()));
                                     i++;
                                 }
                             }
                             this.jDialogNextStep.setVisible(false);
                             i--;
                             block1.setBounds(15+(i*35), (orientationAxisY + 70), 30, 30);
-                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i+9).getLifeTime()));
+                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i+9).getLifeTime()));
                         }
                         else {
                             // Second row
                             this.jDialogNextStep.setVisible(true);
                             int i = (positionsPossibleProcesses.elementAt(j-1) - 9);
                             block1.setBounds(15+(i*35), (orientationAxisY + 70), 30, 30);
-                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i+9).getLifeTime()));
+                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i+9).getLifeTime()));
                             i++;
                             while (i <= (positionsPossibleProcesses.elementAt(j) - 9)) {
                                 if (this.isJButtonOkClicked) {
                                     this.isJButtonOkClicked = false;
                                     block1.setBounds(15+(i*35), (orientationAxisY + 70), 30, 30);
-                                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i+9).getLifeTime()));
+                                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i+9).getLifeTime()));
                                     i++;
                                 }
                             }
                             this.jDialogNextStep.setVisible(false);
                             i--;
                             block1.setBounds(15+(i*35), (orientationAxisY + 70), 30, 30);
-                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(i+9).getLifeTime()));
+                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(i+9).getLifeTime()));
                         }
                     }
 
@@ -282,7 +277,7 @@ public class AlgorithmStepsThread implements Runnable {
 
                     block1.setText("i");
                     block1.setBackground(new java.awt.Color(0, 255, 0));
-                    this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf(this.processesList.elementAt(positionsPossibleProcesses.elementAt(j)).getLifeTime()));
+                    this.jLabelShowCreationTime.setText("Tempo de burst em \"i\" = " + String.valueOf((int)this.processesList.elementAt(positionsPossibleProcesses.elementAt(j)).getLifeTime()));
 
                     block2 = new JTextField();
                     block2 = block1;
@@ -317,13 +312,13 @@ public class AlgorithmStepsThread implements Runnable {
                     this.jDialogNextStep.setVisible(true);
                     j = positionsPossibleProcesses.lastElement();
                     block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
-                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
+                    this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j).getLifeTime()));
                     j++;
                     while (j <= (this.processesList.size() - 1)) {
                         if (this.isJButtonOkClicked) {
                             this.isJButtonOkClicked = false;
                             block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
-                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
+                            this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j).getLifeTime()));
                             j++;
                         }
                     }
@@ -335,26 +330,26 @@ public class AlgorithmStepsThread implements Runnable {
                         this.jDialogNextStep.setVisible(true);
                         j = positionsPossibleProcesses.lastElement();
                         block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
-                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
+                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j).getLifeTime()));
                         while (j <= 8) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
                                 j++;
                                 block3.setBounds(15+(j*35), orientationAxisY, 30, 30);
-                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j).getLifeTime()));
+                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j).getLifeTime()));
                             }
                         }
 
                         // Second row
                         j = 0;
                         block3.setBounds(15, (orientationAxisY + 70), 30, 30);
-                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(9).getLifeTime()));
+                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(9).getLifeTime()));
                         j++;
                         while (j <= (this.processesList.size() - 10)) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
                                 block3.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
-                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j+9).getLifeTime()));
+                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j+9).getLifeTime()));
                                 j++;
                             }
                         }
@@ -366,13 +361,13 @@ public class AlgorithmStepsThread implements Runnable {
                         this.jDialogNextStep.setVisible(true);
                         j = (positionsPossibleProcesses.lastElement() - 9);
                         block3.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
-                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j+9).getLifeTime()));
+                        this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j+9).getLifeTime()));
                         j++;
                         while (j <= (this.processesList.size() - 10)) {
                             if (this.isJButtonOkClicked) {
                                 this.isJButtonOkClicked = false;
                                 block3.setBounds(15+(j*35), (orientationAxisY + 70), 30, 30);
-                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf(this.processesList.elementAt(j+9).getLifeTime()));
+                                this.jLabelShowBurstTime.setText("Tempo de burst em \"j\" = " + String.valueOf((int)this.processesList.elementAt(j+9).getLifeTime()));
                                 j++;
                             }
                         }
@@ -388,6 +383,11 @@ public class AlgorithmStepsThread implements Runnable {
                 }
             } while (!this.isJButtonOkClicked);
             this.isJButtonOkClicked = false;
+            
+            if(this.reportBase == null) {
+                this.reportBase = new Vector<Process>();
+            }
+            this.reportBase.add(this.calculator.waitingTimeAndTurnAround(this.processesList, this.timeCounter, MAXIMUM));
 
             Process process = new Process();
             process = this.processesList.elementAt(algorithm.toExecute(this.processesList, MAXIMUM));
@@ -403,10 +403,10 @@ public class AlgorithmStepsThread implements Runnable {
             
             this.jPanelCPU.add(block4);
             block4.setText("P" + String.valueOf(process.getId()));
-            block4.setToolTipText("Tempo de burst = " + String.valueOf(process.getLifeTime()));
+            block4.setToolTipText("Tempo de burst = " + String.valueOf((int)process.getLifeTime()));
             this.jProgressBarExecution.setVisible(true);
-            this.jLabelShowBurstTime.setText("Tempo de burst de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getLifeTime()));
-            this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getCreationTime()));
+            this.jLabelShowBurstTime.setText("Tempo de burst de P" + String.valueOf(process.getId()) + " = " + String.valueOf((int)process.getLifeTime()));
+            this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf((int)process.getCreationTime()));
             
             this.jDialogNextStep.setTitle("PROCESSANDO P" + String.valueOf(process.getId()) + " ...");
             this.jDialogNextStep.setVisible(true);
@@ -416,7 +416,7 @@ public class AlgorithmStepsThread implements Runnable {
                 if (this.isJButtonOkClicked) {
                     this.isJButtonOkClicked = false;
                     j++;
-                    aux = 100 / process.getLifeTime();
+                    aux = 100 / (int)process.getLifeTime();
                     this.timeCounter++;
                     this.jLabelTimeCounter.setText(String.valueOf(this.timeCounter));
                     this.jProgressBarExecution.setValue(j*aux);
@@ -428,7 +428,7 @@ public class AlgorithmStepsThread implements Runnable {
             while (j == process.getLifeTime()) {
                 if (this.isJButtonOkClicked) {
                     this.isJButtonOkClicked = false;
-                    aux = 100 / process.getLifeTime();
+                    aux = 100 / (int)process.getLifeTime();
                     j++;
                     this.jProgressBarExecution.setValue(j*aux);
                     this.jProgressBarExecution.getUI().update(this.jProgressBarExecution.getGraphics(), this.jProgressBarExecution);
