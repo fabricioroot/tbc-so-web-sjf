@@ -411,7 +411,7 @@ public class MainScreen extends javax.swing.JApplet {
                                     .addComponent(jPanelLegend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanelAnimation, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(178, 178, 178)
+                        .addGap(101, 101, 101)
                         .addComponent(jButtonIntroduction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonStart)
